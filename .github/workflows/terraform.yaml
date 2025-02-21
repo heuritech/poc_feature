@@ -24,3 +24,23 @@ jobs:
         run: echo "🔒 Waiting for manual approval in GitHub UI."
 
       - run: echo apply
+
+  terraform-apply2:
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    environment: euprod
+    steps:
+      - name: Require Manual Approval for Production
+        run: echo "🔒 Waiting for manual approval in GitHub UI."
+
+      - run: echo apply
+
+  terraform-apply3:
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    environment: mt_external
+    steps:
+      - name: Require Manual Approval for Production
+        run: echo "🔒 Waiting for manual approval in GitHub UI."
+
+      - run: echo apply
