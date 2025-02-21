@@ -1,0 +1,26 @@
+name: Terraform Automation
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    environment: ${{ needs.parse-command.outputs.environment }}
+    steps:
+      - run: echo plan
+      
+  terraform-apply:
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    environment: euprod
+    steps:
+      - name: Require Manual Approval for Production
+        run: echo "🔒 Waiting for manual approval in GitHub UI."
+
+      - run: echo apply
