@@ -19,7 +19,9 @@ jobs:
         run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
       
   terraform-apply:
-    if: ${{ contains(needs.*.result, 'skipped') || contains(needs.*.result, 'success') }}
+    if: |
+      always() && 
+      (contains(needs.*.result, 'skipped') || contains(needs.*.result, 'success'))
     needs: terraform-plan
     runs-on: ubuntu-latest
     environment: euprod
