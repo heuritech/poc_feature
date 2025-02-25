@@ -12,6 +12,7 @@ jobs:
   terraform-plan:
     runs-on: ubuntu-latest
     environment: ${{ needs.parse-command.outputs.environment }}
+    if: github.event_name == 'pull_request'
     steps:
       - run: echo plan
       - name: Adding markdown
