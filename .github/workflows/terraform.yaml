@@ -14,6 +14,8 @@ jobs:
     environment: ${{ needs.parse-command.outputs.environment }}
     steps:
       - run: echo plan
+      - name: Adding markdown
+        run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
       
   terraform-apply:
     needs: terraform-plan
@@ -24,6 +26,8 @@ jobs:
         run: echo "🔒 Waiting for manual approval in GitHub UI."
 
       - run: echo apply
+      - name: Adding markdown
+        run: echo '### apply! ' >> $GITHUB_STEP_SUMMARY
 
   terraform-apply2:
     needs: terraform-plan
@@ -34,6 +38,8 @@ jobs:
         run: echo "🔒 Waiting for manual approval in GitHub UI."
 
       - run: echo apply
+      - name: Adding markdown
+        run: echo '### apply2! ' >> $GITHUB_STEP_SUMMARY
 
   terraform-apply3:
     needs: terraform-plan
@@ -44,3 +50,5 @@ jobs:
         run: echo "🔒 Waiting for manual approval in GitHub UI."
 
       - run: echo apply
+      - name: Adding markdown
+        run: echo '### apply3! ' >> $GITHUB_STEP_SUMMARY
