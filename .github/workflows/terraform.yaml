@@ -19,7 +19,7 @@ jobs:
         run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
       
   terraform-apply:
-    if: ${{ cancelled() || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'failure') }}
+    if: ${{ contains(needs.*.result, 'skipped') || contains(needs.*.result, 'success') }}
     needs: terraform-plan
     runs-on: ubuntu-latest
     environment: euprod
