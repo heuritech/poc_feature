@@ -43,7 +43,6 @@ permissions:
 
 jobs:
   eustaging:
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/tf_flow.yaml
     with:
       version: ${{ inputs.version }}
@@ -55,7 +54,6 @@ jobs:
   euprod:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: eustaging
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/tf_flow.yaml
     with:
       version: ${{ inputs.version }}
