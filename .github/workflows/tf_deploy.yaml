@@ -1,12 +1,12 @@
 name: Terraform Deployment
 
 on:
-  pull_request:
-    paths:
-      - 'terraform/**'
-  push:
-    branches:
-      - main
+#  pull_request:
+#    paths:
+#      - 'terraform/**'
+#  push:
+#    branches:
+#      - main
   workflow_dispatch:
     inputs:
       version:
@@ -31,9 +31,10 @@ on:
       stack:
         required: true
         type: string
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+
+#concurrency:
+#  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+#  cancel-in-progress: true
 
 jobs:
   eustaging:
@@ -41,7 +42,7 @@ jobs:
     uses: .github/workflows/tf_flow.yml
     secrets: inherit # pass all secrets
     with:
-      version:
+      version: ${{ inputs.version }}
       need_deployment_approval: ${{ github.ref != 'refs/heads/main' }}
       environment: eustaging
       region: eu-west-1
@@ -54,7 +55,7 @@ jobs:
     uses: .github/workflows/tf_flow.yml
     secrets: inherit # pass all secrets
     with:
-      version:
+      version: ${{ inputs.version }}
       need_deployment_approval: true
       environment: euprod
       region: eu-west-1
