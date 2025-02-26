@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: write-file
     steps:
-      - run echo ${{ steps.write-file.outputs.GIT_SHA }}
+      - run: echo ${{ steps.write-file.outputs.GIT_SHA }}
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.write-file.outputs.GIT_SHA }}
