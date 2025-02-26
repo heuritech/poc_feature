@@ -44,7 +44,7 @@ permissions:
 jobs:
   eustaging:
     runs-on: ubuntu-latest
-    uses: .github/workflows/tf_flow.yml
+    uses: ./.github/workflows/tf_flow.yml
     secrets: inherit # pass all secrets
     with:
       version: ${{ inputs.version }}
@@ -57,7 +57,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: eustaging
     runs-on: ubuntu-latest
-    uses: .github/workflows/tf_flow.yml
+    uses: ./.github/workflows/tf_flow.yml
     secrets: inherit # pass all secrets
     with:
       version: ${{ inputs.version }}
