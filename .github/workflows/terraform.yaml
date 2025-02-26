@@ -1,60 +1,65 @@
-name: Terraform Automation
+name: test
 
 on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   issues: write
 
 jobs:
-  terraform-plan:
+  write-file:
     runs-on: ubuntu-latest
-    environment: ${{ needs.parse-command.outputs.environment }}
-    
     steps:
-      - run: echo plan
+      - run: echo ${{github.run_id}} > foobar.txt
+      - run: git add
+      - run: git commit -m "test"
+      - run: git push
       - name: Adding markdown
         run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
-      
-  terraform-apply:
-    if: |
-      always() && 
-      (contains(needs.*.result, 'skipped') || contains(needs.*.result, 'success'))
-    needs: terraform-plan
+
+  read-file:
     runs-on: ubuntu-latest
-    environment: euprod
     steps:
-      - name: Require Manual Approval for Production
-        run: echo "🔒 Waiting for manual approval in GitHub UI."
-      - name: step opt
-        run: echo optional
-        if: github.event_name == 'pull_request'
-      - run: echo apply
-      - name: Adding markdown
-        run: echo '### apply! ' >> $GITHUB_STEP_SUMMARY
-
-  terraform-apply2:
-    needs: terraform-plan
-    runs-on: ubuntu-latest
-    environment: euprod
-    steps:
-      - name: Require Manual Approval for Production
-        run: echo "🔒 Waiting for manual approval in GitHub UI."
-
-      - run: echo apply
-      - name: Adding markdown
-        run: echo '### apply2! ' >> $GITHUB_STEP_SUMMARY
-
-  terraform-apply3:
-    needs: terraform-plan
-    runs-on: ubuntu-latest
-    environment: mt_external
-    steps:
-      - name: Require Manual Approval for Production
-        run: echo "🔒 Waiting for manual approval in GitHub UI."
-
-      - run: echo apply
-      - name: Adding markdown
-        run: echo '### apply3! ' >> $GITHUB_STEP_SUMMARY
+      - run: cat foobar.txt
+#  terraform-apply:
+#    if: |
+#      always() &&
+#      (contains(needs.*.result, 'skipped') || contains(needs.*.result, 'success'))
+#    needs: terraform-plan
+#    runs-on: ubuntu-latest
+#    environment: euprod
+#    steps:
+#      - name: Require Manual Approval for Production
+#        run: echo "🔒 Waiting for manual approval in GitHub UI."
+#      - name: step opt
+#        run: echo optional
+#        if: github.event_name == 'pull_request'
+#      - run: echo apply
+#      - name: Adding markdown
+#        run: echo '### apply! ' >> $GITHUB_STEP_SUMMARY
+#
+#  terraform-apply2:
+#    needs: terraform-plan
+#    runs-on: ubuntu-latest
+#    environment: euprod
+#    steps:
+#      - name: Require Manual Approval for Production
+#        run: echo "🔒 Waiting for manual approval in GitHub UI."
+#
+#      - run: echo apply
+#      - name: Adding markdown
+#        run: echo '### apply2! ' >> $GITHUB_STEP_SUMMARY
+#
+#  terraform-apply3:
+#    needs: terraform-plan
+#    runs-on: ubuntu-latest
+#    environment: mt_external
+#    steps:
+#      - name: Require Manual Approval for Production
+#        run: echo "🔒 Waiting for manual approval in GitHub UI."
+#
+#      - run: echo apply
+#      - name: Adding markdown
+#        run: echo '### apply3! ' >> $GITHUB_STEP_SUMMARY
