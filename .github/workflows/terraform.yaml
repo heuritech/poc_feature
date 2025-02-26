@@ -11,6 +11,8 @@ permissions:
 jobs:
   write-file:
     runs-on: ubuntu-latest
+    outputs:
+      git_sha: ${{ steps.write-file.outputs.GIT_SHA }}
     steps:
       - uses: actions/checkout@v4
       - run: echo ${{github.run_id}} > foobar.txt
@@ -29,10 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: write-file
     steps:
-      - run: echo ${{ steps.write-file.outputs.GIT_SHA }}
+      - run: echo
       - uses: actions/checkout@v4
         with:
-          ref: ${{ steps.write-file.outputs.GIT_SHA }}
+          ref: ${{ steps.write-file.outputs.git_sha }}
       - run: cat foobar.txt
 #  terraform-apply:
 #    if: |
