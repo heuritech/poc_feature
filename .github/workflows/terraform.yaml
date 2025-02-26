@@ -20,6 +20,7 @@ jobs:
           git config --global user.email 'svc-automation@heuritech.com'
           git commit -m "test"
           git push
+      - run: echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Adding markdown
         run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
 
@@ -27,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: write-file
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.write-file.outputs.GIT_SHA }}
       - run: cat foobar.txt
 #  terraform-apply:
 #    if: |
