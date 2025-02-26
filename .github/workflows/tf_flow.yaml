@@ -24,7 +24,7 @@ on:
 #  cancel-in-progress: true
 
 jobs:
-  deploy:
+  plan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,11 +35,24 @@ jobs:
         run: echo plan
       - name: Notify plan
         run: echo plan
+
+  apply:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.need_deployment_approval }}
+    needs: plan
+    environment:
+      name: ${{ inputs.environment }}
+    steps:
       - name: Waiting approval for apply
-        if: ${{ inputs.need_deployment_approval }}
-        environment:
-          name: ${{ inputs.environment }}
+        run: apply
+
+  apply-without-approval:
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.need_deployment_approval }}
+    needs: plan
+    steps:
+      - name: Waiting approval for apply
         run: apply
       - name: Apply (without approval)
-        if: ${{ !inputs.need_deployment_approval }}
+        if:
         run: apply
