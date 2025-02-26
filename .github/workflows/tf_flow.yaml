@@ -1,0 +1,44 @@
+name: Terraform standard flow
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: false
+        type: string
+      need_deployment_approval:
+        required: true
+        type: boolean
+      environment:
+        required: true
+        type: string
+      region:
+        required: false
+        type: string
+        default: eu-west-1
+      stack:
+        required: true
+        type: string
+#concurrency:
+#  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+#  cancel-in-progress: true
+
+jobs:
+  deploy:
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update version
+        if:  ${{ inputs.version }}
+        run: echo "update version"
+      - name: plan
+        run: echo plan
+      - name: Notify plan
+        run: echo plan
+      - name: Waiting approval for apply
+        if: ${{ inputs.need_deployment_approval }}
+        environment:
+          name: ${{ inputs.environment }}
+        run: apply
+      - name: Apply (without approval)
+        if: ${{ !inputs.need_deployment_approval }}
+        run: apply
