@@ -12,7 +12,7 @@ jobs:
   terraform-plan:
     runs-on: ubuntu-latest
     environment: ${{ needs.parse-command.outputs.environment }}
-    if: github.event_name == 'pull_request'
+    
     steps:
       - run: echo plan
       - name: Adding markdown
@@ -28,7 +28,9 @@ jobs:
     steps:
       - name: Require Manual Approval for Production
         run: echo "🔒 Waiting for manual approval in GitHub UI."
-
+      - name: step opt
+        run: echo optional
+        if: github.event_name == 'pull_request'
       - run: echo apply
       - name: Adding markdown
         run: echo '### apply! ' >> $GITHUB_STEP_SUMMARY
