@@ -12,6 +12,7 @@ jobs:
   write-file:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: echo ${{github.run_id}} > foobar.txt
       - run: git add
       - run: git commit -m "test"
@@ -21,6 +22,7 @@ jobs:
 
   read-file:
     runs-on: ubuntu-latest
+    needs: write-file
     steps:
       - run: cat foobar.txt
 #  terraform-apply:
