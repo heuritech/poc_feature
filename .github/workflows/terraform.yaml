@@ -20,6 +20,7 @@ jobs:
           git config --global user.email 'svc-automation@heuritech.com'
           git commit -m "test"
           git push
+      - run: git rev-parse --short HEAD
       - run: echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Adding markdown
         run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
