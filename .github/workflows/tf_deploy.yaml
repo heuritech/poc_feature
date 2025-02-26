@@ -32,9 +32,9 @@ on:
         required: true
         type: string
 
-#concurrency:
-#  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-#  cancel-in-progress: true
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -45,7 +45,6 @@ jobs:
   eustaging:
     runs-on: ubuntu-latest
     uses: ./.github/workflows/tf_flow.yaml
-    secrets: inherit # pass all secrets
     with:
       version: ${{ inputs.version }}
       need_deployment_approval: ${{ github.ref != 'refs/heads/main' }}
@@ -58,7 +57,6 @@ jobs:
     needs: eustaging
     runs-on: ubuntu-latest
     uses: ./.github/workflows/tf_flow.yaml
-    secrets: inherit # pass all secrets
     with:
       version: ${{ inputs.version }}
       need_deployment_approval: true
