@@ -43,16 +43,14 @@ jobs:
     environment:
       name: ${{ inputs.environment }}
     steps:
-      - name: Waiting approval for apply
-        run: apply
+      - name: Apply
+        run: echo apply
 
   apply-without-approval:
     runs-on: ubuntu-latest
     if: ${{ !inputs.need_deployment_approval }}
     needs: plan
     steps:
-      - name: Waiting approval for apply
-        run: apply
-      - name: Apply (without approval)
+      - name: Apply
         if:
-        run: apply
+        run: echo apply
