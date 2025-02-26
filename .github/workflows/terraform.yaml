@@ -14,9 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo ${{github.run_id}} > foobar.txt
-      - run: git add
-      - run: git commit -m "test"
-      - run: git push
+      - run: |
+          git add
+          git config --global user.name 'svc-automation'
+          git config --global user.email 'svc-automation@heuritech.com'
+          git commit -m "test"
+          git push
       - name: Adding markdown
         run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
 
