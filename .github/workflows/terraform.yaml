@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: write-file
     steps:
-      - run: echo
+      - run: echo ${{ needs.write-file.outputs.git_sha }}
       - uses: actions/checkout@v4
         with:
           ref: ${{ needs.write-file.outputs.git_sha }}
