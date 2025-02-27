@@ -34,7 +34,7 @@ jobs:
       - run: echo
       - uses: actions/checkout@v4
         with:
-          ref: ${{ steps.write-file.outputs.git_sha }}
+          ref: ${{ needs.write-file.outputs.git_sha }}
       - run: cat foobar.txt
 #  terraform-apply:
 #    if: |
