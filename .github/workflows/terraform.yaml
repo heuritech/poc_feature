@@ -12,7 +12,7 @@ jobs:
   write-file:
     runs-on: ubuntu-latest
     outputs:
-      git_sha: ${{ steps.write-file.outputs.GIT_SHA }}
+      git_sha: ${{ steps.get_sha.outputs.GIT_SHA }}
     steps:
       - uses: actions/checkout@v4
       - run: echo ${{github.run_id}} > foobar.txt
@@ -23,7 +23,8 @@ jobs:
           git commit -m "test"
           git push
       - run: git rev-parse --short HEAD
-      - run: echo "GIT_SHA='$(git rev-parse --short HEAD)'" >> $GITHUB_OUTPUT
+      - id: get_sha
+        run: echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Adding markdown
         run: echo '### plan! ' >> $GITHUB_STEP_SUMMARY
 
